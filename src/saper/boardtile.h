@@ -29,6 +29,8 @@ public:
 
     bool getRevealed() const;
 
+    bool getFlagged() const;
+
 private:
     void setTextureRec(sf::IntRect _textureRect);
 

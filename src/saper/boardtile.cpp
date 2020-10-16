@@ -63,19 +63,19 @@ int BoardTile::explore()
         textureRec = sf::IntRect(425, 148, 16, 16);
         sprite.setTextureRect(textureRec);
         blownUp = true;
-        std::cout << "blowup" << std::endl;
+//        std::cout << "blowup" << std::endl;
         return blowup;
     }
     if(hintNumber == 0)
     {
         revealTexture();
-        std::cout << "emptyRevealed" << std::endl;
+//        std::cout << "emptyRevealed" << std::endl;
         return emptyRevealed;
     }
     else
     {
         revealTexture();
-        std::cout << "numberRevealed" << std::endl;
+//        std::cout << "numberRevealed" << std::endl;
         return numberRevealed;
     }
 }
@@ -100,6 +100,11 @@ void BoardTile::flag()
 void BoardTile::setTextureRec(sf::IntRect _textureRect)
 {
     textureRec = _textureRect;
+}
+
+bool BoardTile::getFlagged() const
+{
+    return flagged;
 }
 
 bool BoardTile::getRevealed() const

@@ -11,6 +11,9 @@ Board::Board(int width, int height, int _offsetX, int _offsetY)
     offsetX = _offsetX;
     offsetY = _offsetY;
 
+    flaggedOk = 0;
+    explored = 0;
+
     gameOn = true;
 
     selector = new Selector(offsetX, offsetY, width, height);
@@ -63,6 +66,7 @@ bool Board::explore()
     switch(tileBoard[selector->getTileX()][selector->getTileY()]->explore())
     {
     case emptyRevealed:
+        explored++;
         revealEmptyNeighbors(selector->getTileX(), selector->getTileY());
         break;
     case numberRevealed:
@@ -78,6 +82,16 @@ bool Board::explore()
 void Board::flag()
 {
     tileBoard[selector->getTileX()][selector->getTileY()]->flag();
+    if(tileBoard[selector->getTileX()][selector->getTileY()]->getHasMine()&&
+            tileBoard[selector->getTileX()][selector->getTileY()]->getFlagged())
+    {
+        flaggedOk += 1;
+    }
+    else if(tileBoard[selector->getTileX()][selector->getTileY()]->getHasMine()&&
+            !tileBoard[selector->getTileX()][selector->getTileY()]->getFlagged())
+    {
+        flaggedOk -= 1;
+    }
 }
 
 void Board::blowUp()
@@ -89,6 +103,17 @@ void Board::blowUp()
             tileBoard[x][y]->revealTexture();
         }
     }
+}
+
+bool Board::finishGame()
+{
+    if(explored + flaggedOk == 480) return true;
+    return false;
+}
+
+int Board::calculateScore()
+{
+    return flaggedOk + explored;
 }
 
 void Board::generateMines()
@@ -262,7 +287,6 @@ void Board::generateNumbers()
 
 void Board::revealEmptyNeighbors(int x, int y)
 {
-    std::cout << x << " " <<y << std::endl;
     if(x == 0)  // krawędź
     {
         if(y == 0)
@@ -276,6 +300,8 @@ void Board::revealEmptyNeighbors(int x, int y)
                         if(!tileBoard[i][j]->getRevealed()) // zakryte
                         {
                             tileBoard[i][j]->revealTexture();
+                            explored++;
+
                             if(tileBoard[i][j]->getHintNumber()==0)
                             {
                                 revealEmptyNeighbors(i, j);
@@ -297,6 +323,8 @@ void Board::revealEmptyNeighbors(int x, int y)
                         if(!tileBoard[i][j]->getRevealed()) // zakryte
                         {
                             tileBoard[i][j]->revealTexture();
+                            explored++;
+
                             if(tileBoard[i][j]->getHintNumber()==0)
                             {
                                 revealEmptyNeighbors(i, j);
@@ -317,6 +345,8 @@ void Board::revealEmptyNeighbors(int x, int y)
                         if(!tileBoard[i][j]->getRevealed()) // zakryte
                         {
                             tileBoard[i][j]->revealTexture();
+                            explored++;
+
                             if(tileBoard[i][j]->getHintNumber()==0)
                             {
                                 revealEmptyNeighbors(i, j);
@@ -340,6 +370,8 @@ void Board::revealEmptyNeighbors(int x, int y)
                         if(!tileBoard[i][j]->getRevealed()) // zakryte
                         {
                             tileBoard[i][j]->revealTexture();
+                            explored++;
+
                             if(tileBoard[i][j]->getHintNumber()==0)
                             {
                                 revealEmptyNeighbors(i, j);
@@ -360,6 +392,8 @@ void Board::revealEmptyNeighbors(int x, int y)
                         if(!tileBoard[i][j]->getRevealed()) // zakryte
                         {
                             tileBoard[i][j]->revealTexture();
+                            explored++;
+
                             if(tileBoard[i][j]->getHintNumber()==0)
                             {
                                 revealEmptyNeighbors(i, j);
@@ -380,6 +414,8 @@ void Board::revealEmptyNeighbors(int x, int y)
                         if(!tileBoard[i][j]->getRevealed()) // zakryte
                         {
                             tileBoard[i][j]->revealTexture();
+                            explored++;
+
                             if(tileBoard[i][j]->getHintNumber()==0)
                             {
                                 revealEmptyNeighbors(i, j);
@@ -404,6 +440,8 @@ void Board::revealEmptyNeighbors(int x, int y)
                         if(!tileBoard[i][j]->getRevealed()) // zakryte
                         {
                             tileBoard[i][j]->revealTexture();
+                            explored++;
+
                             if(tileBoard[i][j]->getHintNumber()==0)
                             {
                                 revealEmptyNeighbors(i, j);
@@ -424,6 +462,8 @@ void Board::revealEmptyNeighbors(int x, int y)
                         if(!tileBoard[i][j]->getRevealed()) // zakryte
                         {
                             tileBoard[i][j]->revealTexture();
+                            explored++;
+
                             if(tileBoard[i][j]->getHintNumber()==0)
                             {
                                 revealEmptyNeighbors(i, j);
@@ -445,6 +485,8 @@ void Board::revealEmptyNeighbors(int x, int y)
                         if(!tileBoard[i][j]->getRevealed()) // zakryte
                         {
                             tileBoard[i][j]->revealTexture();
+                            explored++;
+
                             if(tileBoard[i][j]->getHintNumber()==0)
                             {
                                 revealEmptyNeighbors(i, j);

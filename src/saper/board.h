@@ -6,6 +6,7 @@
 #include "userdata.h"
 
 #include "vector"
+#include <memory>
 
 
 class Board
@@ -20,6 +21,9 @@ public:
     bool explore();
     void flag();
     void blowUp();
+
+    bool finishGame();
+    int calculateScore();
 
 private:
 
@@ -39,6 +43,8 @@ private:
     void generateMines();
     void generateNumbers();
     void revealEmptyNeighbors(int x, int y);
+
+    int flaggedOk, explored;
 
 };
 

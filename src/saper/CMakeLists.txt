@@ -13,6 +13,7 @@ add_executable(${PROJECT_NAME} "main.cpp"
 target_link_libraries(saper sfml-system sfml-window sfml-graphics sfml-network sfml-audio)
 
 
+
 project(saper)
 set(CMAKE_MODULE_PATH "../source/lib/sqlite_orm-master")
 find_package (SQLite3)
