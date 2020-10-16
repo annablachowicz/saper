@@ -36,6 +36,22 @@ Board::Board(int width, int height, int _offsetX, int _offsetY)
 
 }
 
+Board::~Board()
+{
+    delete selector;
+
+    for(int x = 0; x < boardWidth; x++)
+    {
+        for(int y = 0; y < boardHeight; y++)
+        {
+            delete tileBoard[x][y];
+        }
+        tileBoard[x].clear();
+
+    }
+    tileBoard.clear();
+}
+
 void Board::draw(sf::RenderWindow &window)
 {
     for(int x = 0; x < tileBoard.size(); x++)

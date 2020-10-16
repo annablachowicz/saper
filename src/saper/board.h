@@ -13,6 +13,7 @@ class Board
 {
 public:
     Board(int width, int height, int _offsetX, int _offsetY);
+    ~Board();
 
     void draw(sf::RenderWindow &window);
     void generateGameBoard();

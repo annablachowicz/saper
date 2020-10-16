@@ -13,6 +13,7 @@ class GameController
 {
 public:
     GameController();
+    ~GameController();
 
     void startGame(int boardWidth, int boardHeight);
 

@@ -32,6 +32,13 @@ GameController::GameController()
     welcomeScreen = true;
 }
 
+GameController::~GameController()
+{
+    delete database;
+    delete gameBoard;
+    delete gameWindow;
+}
+
 void GameController::startGame(int boardWidth, int boardHeight)
 {
     gameBoard = new Board(boardWidth, boardHeight, 160, 120);
