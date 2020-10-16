@@ -21,7 +21,7 @@ private:
     Board *gameBoard;
     sf::RenderWindow *gameWindow;
     UserData user;
-    int bestTime = 0;
+//    int bestTime = 0;
 
     bool welcomeScreen;
     bool gameGenerated;

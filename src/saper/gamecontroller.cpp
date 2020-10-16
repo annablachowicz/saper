@@ -186,11 +186,11 @@ void GameController::showGameOverScreen()
     gameOverText.setPosition(180, 50);
     if(loser)
     {
-        gameOverText.setString(sf::String("PRZEGRALES :( Twoj wynik: " + std::to_string(gameTime)));
+        gameOverText.setString(sf::String("PRZEGRALES :( Twoj czas: " + std::to_string(gameTime)));
     }
     else
     {
-        gameOverText.setString(sf::String("WYGRALES! Twoj wynik: " + std::to_string(gameTime)));
+        gameOverText.setString(sf::String("WYGRALES! Twoj czas: " + std::to_string(gameTime)));
 
     }
 
@@ -198,13 +198,13 @@ void GameController::showGameOverScreen()
     gameOverText2.setFont(font);
     gameOverText2.setFillColor(sf::Color(0,0,0));
     gameOverText2.setPosition(180, 80);
-    if(noWinner)
+    if(database->getNoWinner())
     {
-        gameOverText2.setString(sf::String("Najlepszy wynik (przegral): " + std::to_string(ss.get())));
+        gameOverText2.setString(sf::String("Najlepszy czas (przegral): " + database->getBestTime()));
     }
     else
     {
-        gameOverText2.setString(sf::String("Najlepszy wynik (wygral): " + std::to_string(ss.get())));
+        gameOverText2.setString(sf::String("Najlepszy czas (wygral): " + database->getBestTime()));
     }
 
     gameWindow->draw(gameOverText);
@@ -220,19 +220,14 @@ void GameController::gameFinished()
     if(loser) user.setSuccess(0);
     else user.setSuccess(1);
 
-    gameTime = int(endTimer - beginTimer);
+    gameTime = int((endTimer - beginTimer) /(double) CLOCKS_PER_SEC);
 
     user.setTime(gameTime);
     database->addUser(user);
     database->getBestUser();
-    if(noWinner) database->getBestLoser();
+    if(database->getNoWinner()) database->getBestLoser();
 
     gameOver = true;
-
-    ss >> bestTime;
-       std::cout<< "best time "/* << ss.get() << " "*/ << bestTime << std::endl;
-
-    //   std::cout<<bestScore<<std::endl;
 }
 
 

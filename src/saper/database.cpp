@@ -9,7 +9,8 @@ using namespace std;
 
 Database::Database()
 {
-    bestTime = 0;
+    bestTime = "";
+
     noWinner = false;
 
     sqlite3 *db;
@@ -30,6 +31,8 @@ Database::Database()
                           0,
                           &messageError);
 
+
+    sqlite3_close(db);
 }
 
 void Database::addUser(UserData user)
@@ -52,6 +55,8 @@ void Database::addUser(UserData user)
         cout << "SQL error: %s\n"<< messageError;
         sqlite3_free(messageError);
     }
+    sqlite3_close(db);
+
 }
 
 void Database::getBestUser()
@@ -63,11 +68,15 @@ void Database::getBestUser()
     string query = "SELECT min(time) FROM users "
                    " WHERE users.success=1";
 
+
+
     rc = sqlite3_exec(db, query.c_str(), bestUserCallback, 0, &messageError);
 
-//    cout << "rc" <<  rc <<endl;
     if (rc != SQLITE_OK)
         throw string(sqlite3_errmsg(db));
+
+
+    sqlite3_close(db);
 
 }
 
@@ -77,12 +86,15 @@ void Database::getBestLoser()
     char* messageError;
     int rc = sqlite3_open("../source/minesweeperUserData.sqlite", &db);
 
-    string query = "SELECT min(time) FROM users ";
+    string query = "SELECT min(time) FROM users";
 
     rc = sqlite3_exec(db, query.c_str(), bestLoserCallback, 0, &messageError);
 
     if (rc != SQLITE_OK)
         throw string(sqlite3_errmsg(db));
+
+
+    sqlite3_close(db);
 }
 
 bool Database::getNoWinner()
@@ -90,19 +102,21 @@ bool Database::getNoWinner()
     return noWinner;
 }
 
+string Database::getBestTime()
+{
+    return bestTime;
+}
+
 int Database::bestUserCallback(void *data, int argc, char **argv, char **columns)
 {
-    if(argc == 0)
+
+    if(argv[0] == NULL)
     {
         noWinner = true;
     }
     else
     {
-        for(int i = 0; i < argc; i++)
-        {
-            cout<<columns[i] << " " <<argv[i];
-        }
-        cout << "nieeee";
+        bestTime = string(argv[0]);
         noWinner = false;
     }
 
@@ -111,16 +125,14 @@ int Database::bestUserCallback(void *data, int argc, char **argv, char **columns
 
 int Database::bestLoserCallback(void *data, int argc, char **argv, char **columns)
 {
-    if(argc == 0)
+    if(argv[0] == NULL)
     {
+
     }
     else
     {
-        for(int i = 0; i < argc; i++)
-        {
-            cout<<columns[i] << " " <<argv[i];
-        }
-        ss << argv[0];
+        bestTime = string(argv[0]);
+
     }
 
     return 0;

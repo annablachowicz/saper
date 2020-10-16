@@ -7,7 +7,7 @@
 #include "userdata.h"
 
 
-static int bestTime;
+static std::string bestTime;
 static bool noWinner;
 static std::stringstream ss;
 
@@ -20,6 +20,7 @@ public:
     void getBestLoser();
 
     static bool getNoWinner();
+    static std::string getBestTime();
 
 private:
     std::string path;
